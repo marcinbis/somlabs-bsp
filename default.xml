@@ -7,7 +7,7 @@
   <remote fetch="https://github.com/Freescale" name="freescale"/>
   <remote fetch="https://github.com/openembedded" name="oe"/>
   <remote fetch="https://github.com/marcinbis" name="somlabs"/>
-  <remote fetch="https://github.com/meta-qt5" mame="qt5"/>
+  <remote fetch="https://github.com/meta-qt5" name="qt5"/>
 
   <project remote="yocto" revision="thud" name="poky" path="poky"/>
   <project remote="yocto" revision="thud" name="meta-freescale" path="meta-freescale"/>

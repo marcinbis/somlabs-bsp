@@ -3,10 +3,6 @@
 Yocto Project based BSP for SoMLabs boards:
 http://wiki.somlabs.com/index.php?title=VisionSOM-6ULL
 
-SoMLabs BSP is based on FSL Community BSP. See also:
-https://github.com/Freescale/fsl-community-bsp-platform
-http://freescale.github.io/
-
 To get the BSP you need to have `repo` installed and use it as:
 
 Install the `repo` utility:
@@ -22,7 +18,7 @@ Download the BSP source:
 $: PATH=${PATH}:~/bin
 $: mkdir somlabs-bsp
 $: cd somlabs-bsp
-$: repo init -u https://github.com/SoMLabs/somlabs-bsp -b rocko
+$: repo init -u https://github.com/marcinbis/somlabs-bsp -b thud
 $: repo sync
 
 At the end of the commands you have every metadata you need to start work with.
@@ -30,17 +26,47 @@ At the end of the commands you have every metadata you need to start work with.
 To start a simple image build:
 
 [source,console]
-$: MACHINE=visionsom6ull DISTRO=somlabs-linux EULA=1 source setup-environment build
+$: source poky/oe-init-build-end build
 
-Add meta-layers:
+Add meta-layers - edit `conf/bblayers.conf`:
 [source,console]
-$: bitbake-layers add-layer ../sources/meta-somlabs
-$: bitbake-layers add-layer ../sources/meta-openembedded/meta-python
-$: bitbake-layers add-layer ../sources/meta-openembedded/meta-networking
+$: # POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+$: # changes incompatibly
+$: POKY_BBLAYERS_CONF_VERSION = "2"
+$: 
+$: BBPATH = "${TOPDIR}"
+$: BBFILES ?= ""
+$: 
+$: BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
+$: 
+$: BBLAYERS ?= " \
+$:   ${BSPDIR}/poky/meta \
+$:   ${BSPDIR}/poky/meta-poky \
+$:   ${BSPDIR}/poky/meta-yocto-bsp \
+$:   \
+$:   ${BSPDIR}/meta-openembedded/meta-oe \
+$:   ${BSPDIR}/meta-openembedded/meta-multimedia \
+$:   \
+$:   ${BSPDIR}/meta-freescale \
+$:   ${BSPDIR}/meta-freescale-3rdparty \
+$:   \
+$:   ${BSPDIR}/meta-openembedded/meta-networking \
+$:   ${BSPDIR}/meta-openembedded/meta-python \
+$:   ${BSPDIR}/meta-qt5 \
+$:   ${BSPDIR}/meta-somlabs \
+$: "
 
-(You can also edit `conf/bblayers.conf` by hand.)
+Edit configuration `conf/local.conf`:
+[source,console]
+$: MACHINE = "visionsom6ull"
+$: DISTRO ?= "somlabs-linux"
+$:
+$: #Recommended but optional:
+$: PACKAGE_CLASSES ?= "package_ipk"
+$: EXTRA_IMAGE_FEATURES ?= "debug-tweaks tools-debug tools-profile"
+$: INHERIT += "rm_work"
 
 Buid image:
 
 [source,console]
-$: bitbake lab-image
+$: bitbake console-image

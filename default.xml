@@ -6,22 +6,18 @@
   <remote fetch="https://git.yoctoproject.org/git" name="yocto"/>
   <remote fetch="https://github.com/Freescale" name="freescale"/>
   <remote fetch="https://github.com/openembedded" name="oe"/>
-  <remote fetch="https://github.com/SoMLabs" name="somlabs"/>
+  <remote fetch="https://github.com/marcinbis" name="somlabs"/>
+  <remote fetch="https://github.com/meta-qt5" mame="qt5"/>
 
-  <project remote="yocto" revision="rocko" name="poky" path="sources/poky"/>
-  <project remote="yocto" revision="rocko" name="meta-freescale" path="sources/meta-freescale"/>
+  <project remote="yocto" revision="thud" name="poky" path="poky"/>
+  <project remote="yocto" revision="thud" name="meta-freescale" path="meta-freescale"/>
 
-  <project remote="oe" revision="rocko" name="meta-openembedded" path="sources/meta-openembedded"/>
+  <project remote="oe" revision="thud" name="meta-openembedded" path="meta-openembedded"/>
 
-  <project remote="freescale" revision="rocko" name="fsl-community-bsp-base" path="sources/base">
-	<linkfile dest="README" src="README"/>
-	<linkfile dest="setup-environment" src="setup-environment"/>
-  </project>
+  <project remote="freescale" revision="thud" name="meta-freescale-3rdparty" path="meta-freescale-3rdparty"/>
 
-  <project remote="freescale" revision="rocko" name="meta-freescale-3rdparty" path="sources/meta-freescale-3rdparty"/>
-  <project remote="freescale" revision="rocko" name="meta-freescale-distro" path="sources/meta-freescale-distro"/>
-  <project remote="freescale" revision="rocko" name="Documentation" path="sources/Documentation"/>
+  <project remote="somlabs" revision="thud" name="meta-somlabs" path="meta-somlabs"/>
 
-  <project remote="somlabs" revision="rocko" name="meta-somlabs" path="sources/meta-somlabs"/>
+  <project remote="qt5" revision="thud" name="meta-qt5" path="meta-qt5"/>
 
 </manifest>

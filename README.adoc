@@ -26,7 +26,7 @@ At the end of the commands you have every metadata you need to start work with.
 To start a simple image build:
 
 [source,console]
-$: source poky/oe-init-build-end build
+$: source poky/oe-init-build-env build
 
 Add meta-layers - edit `conf/bblayers.conf`:
 [source,console]

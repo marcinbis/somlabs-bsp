@@ -18,7 +18,7 @@ Download the BSP source:
 $: PATH=${PATH}:~/bin
 $: mkdir somlabs-bsp
 $: cd somlabs-bsp
-$: repo init -u https://github.com/marcinbis/somlabs-bsp -b thud
+$: repo init -u https://github.com/marcinbis/somlabs-bsp -b warrior
 $: repo sync
 
 At the end of the commands you have every metadata you need to start work with.
@@ -72,4 +72,4 @@ $: ACCEPT_FSL_EULA = "1"
 Buid image:
 
 [source,console]
-$: bitbake console-image
+$: bitbake update-image

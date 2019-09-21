@@ -8,68 +8,89 @@ To get the BSP you need to have `repo` installed and use it as:
 Install the `repo` utility:
 
 [source,console]
-$: mkdir ~/bin
-$: curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-$: chmod a+x ~/bin/repo
+----
+mkdir ~/bin
+curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+chmod a+x ~/bin/repo
+----
 
 Download the BSP source:
 
 [source,console]
-$: PATH=${PATH}:~/bin
-$: mkdir somlabs-bsp
-$: cd somlabs-bsp
-$: repo init -u https://github.com/marcinbis/somlabs-bsp -b warrior
-$: repo sync
+----
+PATH=${PATH}:~/bin
+mkdir somlabs-bsp
+cd somlabs-bsp
+repo init -u https://github.com/marcinbis/somlabs-bsp -b warrior
+repo sync
+----
 
 At the end of the commands you have every metadata you need to start work with.
 
 To start a simple image build:
 
 [source,console]
-$: source poky/oe-init-build-env build
+----
+source poky/oe-init-build-env build
+----
 
 Add meta-layers - edit `conf/bblayers.conf`:
 [source,console]
-$: # POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
-$: # changes incompatibly
-$: POKY_BBLAYERS_CONF_VERSION = "2"
-$: 
-$: BBPATH = "${TOPDIR}"
-$: BBFILES ?= ""
-$: 
-$: BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
-$: 
-$: BBLAYERS ?= " \
-$:   ${BSPDIR}/poky/meta \
-$:   ${BSPDIR}/poky/meta-poky \
-$:   ${BSPDIR}/poky/meta-yocto-bsp \
-$:   \
-$:   ${BSPDIR}/meta-openembedded/meta-oe \
-$:   ${BSPDIR}/meta-openembedded/meta-multimedia \
-$:   \
-$:   ${BSPDIR}/meta-freescale \
-$:   ${BSPDIR}/meta-freescale-3rdparty \
-$:   \
-$:   ${BSPDIR}/meta-openembedded/meta-networking \
-$:   ${BSPDIR}/meta-openembedded/meta-python \
-$:   ${BSPDIR}/meta-qt5 \
-$:   ${BSPDIR}/meta-swupdate \
-$:   ${BSPDIR}/meta-somlabs \
-$: "
+----
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BSPDIR := "${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)) + '/../..')}"
+
+BBLAYERS ?= " \
+  ${BSPDIR}/poky/meta \
+  ${BSPDIR}/poky/meta-poky \
+  ${BSPDIR}/poky/meta-yocto-bsp \
+  \
+  ${BSPDIR}/meta-openembedded/meta-oe \
+  ${BSPDIR}/meta-openembedded/meta-multimedia \
+  \
+  ${BSPDIR}/meta-freescale \
+  ${BSPDIR}/meta-freescale-3rdparty \
+  \
+  ${BSPDIR}/meta-openembedded/meta-networking \
+  ${BSPDIR}/meta-openembedded/meta-python \
+  ${BSPDIR}/meta-qt5 \
+  ${BSPDIR}/meta-swupdate \
+  ${BSPDIR}/meta-somlabs \
+"
+----
 
 Edit configuration `conf/local.conf`:
 [source,console]
-$: MACHINE = "visionsom6ull"
-$: DISTRO ?= "somlabs-linux"
-$:
-$: #Recommended but optional:
-$: PACKAGE_CLASSES ?= "package_ipk"
-$: EXTRA_IMAGE_FEATURES ?= "debug-tweaks tools-debug tools-profile"
-$: INHERIT += "rm_work"
-$: #To use 'firmware-imx' you need to accept the Freescale EULA:
-$: ACCEPT_FSL_EULA = "1"
+----
+MACHINE = "visionsom6ull"
+DISTRO ?= "somlabs-linux"
+
+#Recommended but optional:
+PACKAGE_CLASSES ?= "package_ipk"
+EXTRA_IMAGE_FEATURES ?= "debug-tweaks tools-debug tools-profile"
+INHERIT += "rm_work"
+#To use 'firmware-imx' you need to accept the Freescale EULA:
+ACCEPT_FSL_EULA = "1"
+
+#Leave rest of options unchanged or alter them according to needs.
+----
 
 Buid image:
 
 [source,console]
-$: bitbake update-image
+----
+bitbake update-image
+----
+The command creates an `update-image*swu` - suitable for SWUpdate and `console-image*wic.gz` - ready to be written to SDCARD.
+
+Build SDK:
+[source,console]
+----
+bitbake -c populate_sdk console-image
+----

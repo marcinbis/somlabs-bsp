@@ -21,7 +21,7 @@ Download the BSP source:
 PATH=${PATH}:~/bin
 mkdir somlabs-bsp
 cd somlabs-bsp
-repo init -u https://github.com/marcinbis/somlabs-bsp -b warrior
+repo init -u https://github.com/marcinbis/somlabs-bsp -b zeus
 repo sync
 ----
 
